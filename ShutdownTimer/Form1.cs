@@ -37,7 +37,7 @@ namespace ShutdownTimer
                     if (NumHours.Value <= 0)
                     {
                         Timer.Stop();
-                        //Shutdown();
+                        Shutdown();
                     }
                     else
                     {
