@@ -23,6 +23,10 @@ namespace ShutdownTimer
             Timer.Enabled = !Timer.Enabled;
             if (Timer.Enabled)
             {
+                if (NumHours.Value <= 0 && NumMinutes.Value <= 0 && NumSeconds.Value <= 2)
+                {
+                    NumSeconds.Value = 3;
+                }
                 BtnStart.Text = "Stop";
             }
             else BtnStart.Text = "Start";

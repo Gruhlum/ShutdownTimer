@@ -151,6 +151,7 @@
             this.MinimumSize = new System.Drawing.Size(320, 160);
             this.Name = "Form1";
             this.ShowIcon = false;
+            this.Text = "ShutdownTimer";
             ((System.ComponentModel.ISupportInitialize)(this.NumMinutes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumSeconds)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumHours)).EndInit();
