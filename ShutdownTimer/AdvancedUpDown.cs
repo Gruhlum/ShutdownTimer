@@ -9,7 +9,7 @@ namespace ShutdownTimer
 {
     public class AdvancedUpDown : NumericUpDown
     {
-        public int Increments = 15;
+        public int Increments = 1;
         public override void UpButton()
         {
             this.Value += Math.Min(Maximum - this.Value, Increments);

@@ -18,6 +18,8 @@ namespace ShutdownTimer
         {
             InitializeComponent();
             ToolStripMenuItemIncrement.Checked = Properties.Settings.Default.Increment;
+            LoadSettings();
+            NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
         }
 
         public enum EXECUTION_STATE : uint
@@ -66,8 +68,7 @@ namespace ShutdownTimer
                     }
                 }
                 else
-                {
-                    NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED);
+                {                   
                     AUDMinutes.Value--;
                     AUDSeconds.Value = 59;
                 }
@@ -81,12 +82,11 @@ namespace ShutdownTimer
             psi.UseShellExecute = false;
             Process.Start(psi);
         }
-
-        private void ToolStripMenuItemIncrement_CheckedChanged(object sender, EventArgs e)
+        private void LoadSettings()
         {
             if (ToolStripMenuItemIncrement.Checked)
             {
-                AUDHours.Increments = 15;
+                AUDHours.Increments = 1;
                 AUDMinutes.Increments = 15;
                 AUDSeconds.Increments = 15;
             }
@@ -96,6 +96,10 @@ namespace ShutdownTimer
                 AUDMinutes.Increments = 1;
                 AUDSeconds.Increments = 1;
             }
+        }
+        private void ToolStripMenuItemIncrement_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadSettings();
             Properties.Settings.Default.Increment = ToolStripMenuItemIncrement.Checked;
             Properties.Settings.Default.Save();
         }
