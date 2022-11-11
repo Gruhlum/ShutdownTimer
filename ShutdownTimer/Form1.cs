@@ -19,7 +19,7 @@ namespace ShutdownTimer
             InitializeComponent();
             ToolStripMenuItemIncrement.Checked = Properties.Settings.Default.Increment;
             LoadSettings();
-            NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+            
         }
 
         public enum EXECUTION_STATE : uint
@@ -27,6 +27,7 @@ namespace ShutdownTimer
             ES_AWAYMODE_REQUIRED = 0x00000040,
             ES_CONTINUOUS = 0x80000000,
             ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001,
         }
 
         internal class NativeMethods
@@ -40,13 +41,18 @@ namespace ShutdownTimer
             Timer.Enabled = !Timer.Enabled;
             if (Timer.Enabled)
             {
+                NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_SYSTEM_REQUIRED);
                 if (AUDHours.Value <= 0 && AUDMinutes.Value <= 0 && AUDSeconds.Value <= 2)
                 {
                     AUDSeconds.Value = 3;
                 }
                 BtnStart.Text = "Stop";
             }
-            else BtnStart.Text = "Start";
+            else
+            {
+                NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+                BtnStart.Text = "Start";
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)
