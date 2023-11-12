@@ -1,26 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ShutdownTimer
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
-            ToolStripMenuItemIncrement.Checked = Properties.Settings.Default.Increment;
-            LoadSettings();
-            
-        }
+        Thread FadeThread;
 
         public enum EXECUTION_STATE : uint
         {
@@ -36,6 +24,47 @@ namespace ShutdownTimer
             public static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
         }
 
+        public delegate void DoWorkCallback(decimal result);
+
+        public Form1()
+        {
+            InitializeComponent();
+            ToolStripMenuItemIncrement.Checked = Properties.Settings.Default.Increment;
+            ToolStripMenuItemFade.Checked = Properties.Settings.Default.Fade;
+            LoadSettings();
+            FormClosed += Form1_FormClosed;          
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            StopThread();
+        }
+
+        private void CallToChildThread()
+        {
+            Fade f = new Fade(GetTotalTimeInSeconds());
+            f.ShowDialog();
+        }
+        private void StartThread()
+        {
+            if (Properties.Settings.Default.Fade)
+            {
+                ThreadStart childref = new ThreadStart(CallToChildThread);
+                FadeThread = new Thread(childref);
+                FadeThread.Start();
+            }
+        }       
+        private void StopThread()
+        {
+            if (FadeThread != null)
+            {
+                FadeThread.Abort();
+            }           
+        }
+        private decimal GetTotalTimeInSeconds()
+        {
+            return AUDSeconds.Value + AUDMinutes.Value * 60 + AUDHours.Value * 60 * 60;
+        }
         private void BtnStart_Click(object sender, EventArgs e)
         {
             Timer.Enabled = !Timer.Enabled;
@@ -46,11 +75,13 @@ namespace ShutdownTimer
                 {
                     AUDSeconds.Value = 3;
                 }
+                StartThread();
                 BtnStart.Text = "Stop";
             }
             else
             {
                 NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+                StopThread();
                 BtnStart.Text = "Start";
             }
         }
@@ -74,7 +105,7 @@ namespace ShutdownTimer
                     }
                 }
                 else
-                {                   
+                {
                     AUDMinutes.Value--;
                     AUDSeconds.Value = 59;
                 }
@@ -107,6 +138,12 @@ namespace ShutdownTimer
         {
             LoadSettings();
             Properties.Settings.Default.Increment = ToolStripMenuItemIncrement.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ToolStripMenuItemFade_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Fade = ToolStripMenuItemFade.Checked;
             Properties.Settings.Default.Save();
         }
     }

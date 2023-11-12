@@ -33,9 +33,10 @@
             this.LabelSeconds = new System.Windows.Forms.Label();
             this.BtnStart = new System.Windows.Forms.Button();
             this.ContextMenuStripStartButton = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ToolStripMenuItemIncrement = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemFade = new System.Windows.Forms.ToolStripMenuItem();
             this.Timer = new System.Windows.Forms.Timer(this.components);
             this.LabelHours = new System.Windows.Forms.Label();
-            this.ToolStripMenuItemIncrement = new System.Windows.Forms.ToolStripMenuItem();
             this.AUDSeconds = new ShutdownTimer.AdvancedUpDown();
             this.AUDMinutes = new ShutdownTimer.AdvancedUpDown();
             this.AUDHours = new ShutdownTimer.AdvancedUpDown();
@@ -84,9 +85,28 @@
             // ContextMenuStripStartButton
             // 
             this.ContextMenuStripStartButton.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItemIncrement});
+            this.ToolStripMenuItemIncrement,
+            this.ToolStripMenuItemFade});
             this.ContextMenuStripStartButton.Name = "contextMenuStrip1";
-            this.ContextMenuStripStartButton.Size = new System.Drawing.Size(181, 48);
+            this.ContextMenuStripStartButton.Size = new System.Drawing.Size(181, 70);
+            // 
+            // ToolStripMenuItemIncrement
+            // 
+            this.ToolStripMenuItemIncrement.Checked = true;
+            this.ToolStripMenuItemIncrement.CheckOnClick = true;
+            this.ToolStripMenuItemIncrement.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ToolStripMenuItemIncrement.Name = "ToolStripMenuItemIncrement";
+            this.ToolStripMenuItemIncrement.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemIncrement.Text = "15 Increment";
+            this.ToolStripMenuItemIncrement.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemIncrement_CheckedChanged);
+            // 
+            // ToolStripMenuItemFade
+            // 
+            this.ToolStripMenuItemFade.CheckOnClick = true;
+            this.ToolStripMenuItemFade.Name = "ToolStripMenuItemFade";
+            this.ToolStripMenuItemFade.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemFade.Text = "Fade";
+            this.ToolStripMenuItemFade.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemFade_CheckedChanged);
             // 
             // Timer
             // 
@@ -104,16 +124,6 @@
             this.LabelHours.TabIndex = 6;
             this.LabelHours.Text = "Hours";
             this.LabelHours.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ToolStripMenuItemIncrement
-            // 
-            this.ToolStripMenuItemIncrement.Checked = true;
-            this.ToolStripMenuItemIncrement.CheckOnClick = true;
-            this.ToolStripMenuItemIncrement.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ToolStripMenuItemIncrement.Name = "ToolStripMenuItemIncrement";
-            this.ToolStripMenuItemIncrement.Size = new System.Drawing.Size(180, 22);
-            this.ToolStripMenuItemIncrement.Text = "15 Increment";
-            this.ToolStripMenuItemIncrement.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemIncrement_CheckedChanged);
             // 
             // AUDSeconds
             // 
@@ -196,6 +206,7 @@
         private AdvancedUpDown AUDSeconds;
         private System.Windows.Forms.ContextMenuStrip ContextMenuStripStartButton;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemIncrement;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemFade;
     }
 }
 
