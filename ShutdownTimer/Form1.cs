@@ -74,7 +74,7 @@ namespace ShutdownTimer
             if (Timer.Enabled)
             {
                 NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_SYSTEM_REQUIRED);
-                if (AUDHours.Value <= 0 && AUDMinutes.Value <= 0 && AUDSeconds.Value <= 2)
+                if (AUDHours.Value <= 0 && AUDMinutes.Value <= 0 && AUDSeconds.Value < 3)
                 {
                     AUDSeconds.Value = 3;
                 }
@@ -83,7 +83,7 @@ namespace ShutdownTimer
                 this.BackColor = Color.DarkSalmon;
                 this.Icon = Properties.Resources.timer_active;
                 Properties.Settings.Default.TotalSeconds = AUDHours.Value * 60 * 60 + AUDMinutes.Value * 60 + AUDSeconds.Value;
-                Properties.Settings.Default.Save();
+                Properties.Settings.Default.Save();               
             }
             else
             {
