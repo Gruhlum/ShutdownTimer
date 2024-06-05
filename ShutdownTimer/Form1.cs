@@ -30,9 +30,7 @@ namespace ShutdownTimer
 
         public Form1()
         {
-            InitializeComponent();
-            ToolStripMenuItemIncrement.Checked = Properties.Settings.Default.Increment;
-            ToolStripMenuItemFade.Checked = Properties.Settings.Default.Fade;
+            InitializeComponent();            
             LoadSettings();
             FormClosed += Form1_FormClosed;          
         }
@@ -72,6 +70,7 @@ namespace ShutdownTimer
             Timer.Enabled = !Timer.Enabled;
             SoundPlayer buttonClick = new SoundPlayer(Properties.Resources.Click_SciFi);
             buttonClick.Play();
+
             if (Timer.Enabled)
             {
                 NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_SYSTEM_REQUIRED);
@@ -83,6 +82,8 @@ namespace ShutdownTimer
                 BtnStart.Text = "Stop";
                 this.BackColor = Color.DarkSalmon;
                 this.Icon = Properties.Resources.timer_active;
+                Properties.Settings.Default.TotalSeconds = AUDHours.Value * 60 * 60 + AUDMinutes.Value * 60 + AUDSeconds.Value;
+                Properties.Settings.Default.Save();
             }
             else
             {
@@ -129,6 +130,15 @@ namespace ShutdownTimer
         }
         private void LoadSettings()
         {
+            ToolStripMenuItemIncrement.Checked = Properties.Settings.Default.Increment;
+            ToolStripMenuItemFade.Checked = Properties.Settings.Default.Fade;
+
+            TimeSpan timeSpan = TimeSpan.FromSeconds((long)Properties.Settings.Default.TotalSeconds);
+
+            AUDSeconds.Value = timeSpan.Seconds;
+            AUDMinutes.Value = timeSpan.Minutes;
+            AUDHours.Value = timeSpan.Hours;
+
             if (ToolStripMenuItemIncrement.Checked)
             {
                 AUDHours.Increments = 1;
@@ -142,6 +152,7 @@ namespace ShutdownTimer
                 AUDSeconds.Increments = 1;
             }
         }
+        
         private void ToolStripMenuItemIncrement_CheckedChanged(object sender, EventArgs e)
         {
             LoadSettings();
