@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.LabelMinutes = new System.Windows.Forms.Label();
             this.LabelSeconds = new System.Windows.Forms.Label();
             this.BtnStart = new System.Windows.Forms.Button();
@@ -88,7 +89,7 @@
             this.ToolStripMenuItemIncrement,
             this.ToolStripMenuItemFade});
             this.ContextMenuStripStartButton.Name = "contextMenuStrip1";
-            this.ContextMenuStripStartButton.Size = new System.Drawing.Size(181, 70);
+            this.ContextMenuStripStartButton.Size = new System.Drawing.Size(144, 48);
             // 
             // ToolStripMenuItemIncrement
             // 
@@ -96,7 +97,7 @@
             this.ToolStripMenuItemIncrement.CheckOnClick = true;
             this.ToolStripMenuItemIncrement.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ToolStripMenuItemIncrement.Name = "ToolStripMenuItemIncrement";
-            this.ToolStripMenuItemIncrement.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemIncrement.Size = new System.Drawing.Size(143, 22);
             this.ToolStripMenuItemIncrement.Text = "15 Increment";
             this.ToolStripMenuItemIncrement.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemIncrement_CheckedChanged);
             // 
@@ -104,7 +105,7 @@
             // 
             this.ToolStripMenuItemFade.CheckOnClick = true;
             this.ToolStripMenuItemFade.Name = "ToolStripMenuItemFade";
-            this.ToolStripMenuItemFade.Size = new System.Drawing.Size(180, 22);
+            this.ToolStripMenuItemFade.Size = new System.Drawing.Size(143, 22);
             this.ToolStripMenuItemFade.Text = "Fade";
             this.ToolStripMenuItemFade.CheckedChanged += new System.EventHandler(this.ToolStripMenuItemFade_CheckedChanged);
             // 
@@ -179,6 +180,7 @@
             this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.LabelSeconds);
             this.Controls.Add(this.LabelMinutes);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(274, 160);
             this.MinimizeBox = false;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -68,6 +70,8 @@ namespace ShutdownTimer
         private void BtnStart_Click(object sender, EventArgs e)
         {
             Timer.Enabled = !Timer.Enabled;
+            SoundPlayer buttonClick = new SoundPlayer(Properties.Resources.Click_SciFi);
+            buttonClick.Play();
             if (Timer.Enabled)
             {
                 NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_SYSTEM_REQUIRED);
@@ -77,12 +81,16 @@ namespace ShutdownTimer
                 }
                 StartThread();
                 BtnStart.Text = "Stop";
+                this.BackColor = Color.DarkSalmon;
+                this.Icon = Properties.Resources.timer_active;
             }
             else
             {
                 NativeMethods.SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
                 StopThread();
                 BtnStart.Text = "Start";
+                this.BackColor = SystemColors.Control;
+                this.Icon = Properties.Resources.timer_normal;
             }
         }
 
