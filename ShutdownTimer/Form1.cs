@@ -165,5 +165,30 @@ namespace ShutdownTimer
             Properties.Settings.Default.Fade = ToolStripMenuItemFade.Checked;
             Properties.Settings.Default.Save();
         }
+
+        private void AUDMinutes_ValueChanged(object sender, EventArgs e)
+        {
+            HandleNegativeValue(AUDMinutes, AUDHours);
+        }
+
+        private void AUDSeconds_ValueChanged(object sender, EventArgs e)
+        {
+            HandleNegativeValue(AUDSeconds, AUDMinutes);
+        }
+        private void HandleNegativeValue(AdvancedUpDown advancedUD, AdvancedUpDown nextUD)
+        {
+            if (advancedUD.Value < 0)
+            {
+                while (nextUD.Value > 0 && advancedUD.Value < 0)
+                {
+                    nextUD.Value--;
+                    advancedUD.Value += 60;
+                }
+                if (advancedUD.Value < 0)
+                {
+                    advancedUD.Value = 0;
+                }
+            }
+        }
     }
 }

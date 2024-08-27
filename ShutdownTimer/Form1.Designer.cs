@@ -135,10 +135,16 @@
             0,
             0,
             0});
+            this.AUDSeconds.Minimum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            -2147483648});
             this.AUDSeconds.Name = "AUDSeconds";
             this.AUDSeconds.Size = new System.Drawing.Size(70, 35);
             this.AUDSeconds.TabIndex = 9;
             this.AUDSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.AUDSeconds.ValueChanged += new System.EventHandler(this.AUDSeconds_ValueChanged);
             // 
             // AUDMinutes
             // 
@@ -149,10 +155,16 @@
             0,
             0,
             0});
+            this.AUDMinutes.Minimum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            -2147483648});
             this.AUDMinutes.Name = "AUDMinutes";
             this.AUDMinutes.Size = new System.Drawing.Size(70, 35);
             this.AUDMinutes.TabIndex = 8;
             this.AUDMinutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.AUDMinutes.ValueChanged += new System.EventHandler(this.AUDMinutes_ValueChanged);
             // 
             // AUDHours
             // 
