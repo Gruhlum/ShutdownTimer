@@ -30,9 +30,9 @@ namespace ShutdownTimer
 
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
             LoadSettings();
-            FormClosed += Form1_FormClosed;          
+            FormClosed += Form1_FormClosed;
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -53,13 +53,13 @@ namespace ShutdownTimer
                 FadeThread = new Thread(childref);
                 FadeThread.Start();
             }
-        }       
+        }
         private void StopThread()
         {
             if (FadeThread != null)
             {
                 FadeThread.Abort();
-            }           
+            }
         }
         private decimal GetTotalTimeInSeconds()
         {
@@ -83,7 +83,7 @@ namespace ShutdownTimer
                 this.BackColor = Color.DarkSalmon;
                 this.Icon = Properties.Resources.timer_active;
                 Properties.Settings.Default.TotalSeconds = AUDHours.Value * 60 * 60 + AUDMinutes.Value * 60 + AUDSeconds.Value;
-                Properties.Settings.Default.Save();               
+                Properties.Settings.Default.Save();
             }
             else
             {
@@ -139,6 +139,11 @@ namespace ShutdownTimer
             AUDMinutes.Value = timeSpan.Minutes;
             AUDHours.Value = timeSpan.Hours;
 
+            UpdateIncrementSettings();
+        }
+
+        private void UpdateIncrementSettings()
+        {
             if (ToolStripMenuItemIncrement.Checked)
             {
                 AUDHours.Increments = 1;
@@ -152,10 +157,10 @@ namespace ShutdownTimer
                 AUDSeconds.Increments = 1;
             }
         }
-        
+
         private void ToolStripMenuItemIncrement_CheckedChanged(object sender, EventArgs e)
         {
-            LoadSettings();
+            UpdateIncrementSettings();
             Properties.Settings.Default.Increment = ToolStripMenuItemIncrement.Checked;
             Properties.Settings.Default.Save();
         }
@@ -168,26 +173,32 @@ namespace ShutdownTimer
 
         private void AUDMinutes_ValueChanged(object sender, EventArgs e)
         {
-            HandleNegativeValue(AUDMinutes, AUDHours);
+            NormalizeTime(AUDMinutes, AUDHours);
         }
 
         private void AUDSeconds_ValueChanged(object sender, EventArgs e)
         {
-            HandleNegativeValue(AUDSeconds, AUDMinutes);
+            NormalizeTime(AUDSeconds, AUDMinutes);
         }
-        private void HandleNegativeValue(AdvancedUpDown advancedUD, AdvancedUpDown nextUD)
+        private void NormalizeTime(AdvancedUpDown advancedUD, AdvancedUpDown higherUD)
         {
+            if (advancedUD.Value >= 60)
+            {
+                int carry = (int)((int)advancedUD.Value / 60f);
+                advancedUD.Value -= carry * 60;
+                higherUD.Value += carry;
+            }
+
             if (advancedUD.Value < 0)
             {
-                while (nextUD.Value > 0 && advancedUD.Value < 0)
-                {
-                    nextUD.Value--;
-                    advancedUD.Value += 60;
-                }
+                int needed = (int)Math.Ceiling(-(double)advancedUD.Value / 60.0);
+                int borrow = Math.Min(needed, (int)higherUD.Value);
+
+                advancedUD.Value += borrow * 60;
+                higherUD.Value -= borrow;
+
                 if (advancedUD.Value < 0)
-                {
                     advancedUD.Value = 0;
-                }
             }
         }
     }

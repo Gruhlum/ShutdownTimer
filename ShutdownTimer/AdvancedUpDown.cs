@@ -10,14 +10,18 @@ namespace ShutdownTimer
     public class AdvancedUpDown : NumericUpDown
     {
         public int Increments = 1;
+
         public override void UpButton()
         {
-            this.Value = Math.Min(Maximum, (int)Math.Round((float)(this.Value + Increments) / (float)Increments) * Increments);
+            int next = (int)Math.Ceiling((Value + 1) / Increments) * Increments;
+            Value = Math.Min(Maximum, next);
         }
+
         public override void DownButton()
         {
-            //this.Value -= Math.Min(this.Value - Minimum, Increments);
-            this.Value = Math.Max(Minimum, (int)Math.Round((float)(this.Value - Increments) / (float)Increments) * Increments);
+            int next = (int)Math.Floor((Value - 1) / Increments) * Increments;
+            Value = Math.Max(Minimum, next);
         }
+
     }
 }

@@ -164,6 +164,11 @@
             this.AUDMinutes.Size = new System.Drawing.Size(70, 35);
             this.AUDMinutes.TabIndex = 8;
             this.AUDMinutes.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.AUDMinutes.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
             this.AUDMinutes.ValueChanged += new System.EventHandler(this.AUDMinutes_ValueChanged);
             // 
             // AUDHours
@@ -198,7 +203,6 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(274, 160);
             this.Name = "Form1";
-            this.ShowIcon = false;
             this.Text = "ShutdownTimer";
             this.ContextMenuStripStartButton.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.AUDSeconds)).EndInit();
